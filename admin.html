@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ming.exe // Admin</title>
+<link rel="stylesheet" href="css/main.css">
+<style>
+body{padding:80px 14px}.admin{max-width:1050px;margin:auto}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{padding:12px}.field label{display:block;font-size:10px;color:#8dd8ff;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;border:1px solid rgba(255,255,255,.18);background:#090014;color:#fff;padding:9px;font:inherit}.field textarea{min-height:100px;resize:vertical}.admin-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.admin-actions button{border:1px solid rgba(255,255,255,.22);background:rgba(255,20,147,.12);padding:10px 12px;cursor:pointer}.list-editor{display:grid;gap:8px;margin-top:8px}.edit-row{display:grid;grid-template-columns:80px 1fr 80px 1fr auto;gap:7px;align-items:center}.edit-row input{min-width:0;border:1px solid rgba(255,255,255,.14);background:#090014;color:#fff;padding:7px}.remove{border:1px solid #ff1493;background:transparent;padding:7px;cursor:pointer}.notice{font-size:10px;color:#9f8aaa;margin-top:8px}@media(max-width:760px){.form-grid{grid-template-columns:1fr}.edit-row{grid-template-columns:1fr 1fr}.edit-row .remove{grid-column:1/-1}}
+.popup-edit{padding:12px;display:grid;gap:8px}.popup-edit strong{font-family:Silkscreen;color:#ff4dc4;font-size:11px}.popup-edit label{display:grid;gap:5px;color:#8dd8ff;font-size:10px}.popup-edit input,.popup-edit textarea{width:100%;border:1px solid rgba(255,255,255,.18);background:#090014;color:#fff;padding:8px;font:inherit}.popup-edit textarea{min-height:80px;resize:vertical}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">MING<span class="blink">.EXE</span> // ADMIN</div><div class="top-status"><span class="led"></span> EDIT MODE</div><a class="icon-btn" href="index.html" style="text-decoration:none">↩ OPEN SITE</a></header>
+<main class="admin">
+<section class="panel data-card"><div class="panel-tag">CONTROL_PANEL://CONTENT_MANAGER</div><h1 style="font-family:Silkscreen;margin:0;text-shadow:5px 0 var(--pink),-5px 0 var(--blue)">EDIT MING.EXE</h1><p class="notice">Changes are stored in this browser. Export the JSON when you want to move them into <code>data/ming.json</code>.</p></section>
+<section class="panel data-card" style="margin-top:12px"><h3>PROFILE</h3><div class="form-grid">
+<div class="field"><label>NAME</label><input id="name"></div><div class="field"><label>AGE</label><input id="age" type="number"></div>
+<div class="field"><label>STATUS</label><input id="status"></div><div class="field"><label>MOOD</label><input id="mood"></div>
+<div class="field"><label>PRONOUNS</label><input id="pronouns"></div><div class="field"><label>IDENTITY</label><input id="identity"></div>
+<div class="field"><label>SEXUALITY</label><input id="sexuality"></div><div class="field"><label>TAGLINE</label><input id="tagline"></div>
+<div class="field" style="grid-column:1/-1"><label>PROFILE IMAGE PATH OR URL</label><input id="avatar" placeholder="assets/images/ming.png"><input id="avatarFile" type="file" accept="image/*"><div class="notice">Use a path such as assets/images/ming.png, or choose an image file for this browser.</div></div>
+<div class="field" style="grid-column:1/-1"><label>DESCRIPTION</label><textarea id="description"></textarea></div>
+</div></section>
+<section class="panel data-card" style="margin-top:12px"><h3>COLORS</h3><div class="form-grid"><div class="field"><label>PRIMARY</label><input id="primary" type="color"></div><div class="field"><label>SECONDARY</label><input id="secondary" type="color"></div><div class="field"><label>ACCENT</label><input id="accent" type="color"></div><div class="field"><label>BACKGROUND</label><input id="background" type="color"></div></div></section>
+<section class="panel data-card" style="margin-top:12px"><h3>LIKES</h3><div id="likes" class="list-editor"></div><div class="admin-actions"><button data-add="likes">+ ADD LIKE</button></div></section>
+<section class="panel data-card" style="margin-top:12px"><h3>DISLIKES</h3><div id="dislikes" class="list-editor"></div><div class="admin-actions"><button data-add="dislikes">+ ADD DISLIKE</button></div></section>
+<section class="panel data-card" style="margin-top:12px"><h3>LORE</h3><div id="lore" class="list-editor"></div><div class="admin-actions"><button data-add="lore">+ ADD LORE ENTRY</button></div></section>
+<section class="panel data-card" style="margin-top:12px"><h3>POPUP WINDOWS</h3><div id="popupWindows" class="list-editor"></div><div class="notice">Edit each popup title, message and the waiting time before it returns. Time is measured in minutes.</div></section>
+<section class="panel data-card" style="margin-top:12px"><h3>EXPORT</h3><div class="admin-actions"><button id="save">SAVE TO BROWSER</button><button id="export">EXPORT JSON</button><button id="reset">RESET TO ORIGINAL JSON</button></div><div class="notice">The public page automatically reads browser-saved data before falling back to the JSON file.</div></section>
+</main>
+<script>
+const ADMIN_SESSION_KEY='mingExeAdminAccess';
+if(sessionStorage.getItem(ADMIN_SESSION_KEY)!=='granted'){
+	alert('ACCESS DENIED // Use the private admin button from Ming.exe.');
+	window.location.replace('index.html');
+}
+let original=null,data=null;
+const $=id=>document.getElementById(id);
+async function init(){original=await fetch('data/ming.json').then(r=>r.json());data=JSON.parse(localStorage.getItem('mingExeData')||JSON.stringify(original));data.popupWindows=data.popupWindows||original.popupWindows||[];fillProfile();renderList('likes');renderList('dislikes');renderLore();renderPopupWindows();}
+function fillProfile(){const p=data.profile; $('name').value=p.name;$('avatar').value=p.avatar||'';$('age').value=p.age;$('status').value=p.status;$('mood').value=p.mood;$('pronouns').value=p.pronouns.join(', ');$('identity').value=p.identity;$('sexuality').value=p.sexuality;$('tagline').value=p.tagline;$('description').value=p.description;$('primary').value=p.colors.primary;$('secondary').value=p.colors.secondary;$('accent').value=p.colors.accent;$('background').value=p.colors.background;}
+function readProfile(){const p=data.profile;p.name=$('name').value;p.avatar=$('avatar').value.trim();p.age=Number($('age').value);p.status=$('status').value;p.mood=$('mood').value;p.pronouns=$('pronouns').value.split(',').map(s=>s.trim()).filter(Boolean);p.identity=$('identity').value;p.sexuality=$('sexuality').value;p.tagline=$('tagline').value;p.description=$('description').value;p.colors.primary=$('primary').value;p.colors.secondary=$('secondary').value;p.colors.accent=$('accent').value;p.colors.background=$('background').value;}
+function renderList(type){$(type).innerHTML=data[type].map((x,i)=>`<div class="edit-row"><input value="${esc(x.icon||'✦')}" data-type="${type}" data-i="${i}" data-k="icon"><input value="${esc(x.name)}" data-type="${type}" data-i="${i}" data-k="name"><input value="${esc(String(x.rating))}" data-type="${type}" data-i="${i}" data-k="rating"><input value="${esc(x.note||'')}" data-type="${type}" data-i="${i}" data-k="note"><button class="remove" data-remove="${type}" data-i="${i}">×</button></div>`).join('')||'<div class="notice">No entries yet.</div>';}
+function renderLore(){ $('lore').innerHTML=data.lore.map((x,i)=>`<div class="edit-row" style="grid-template-columns:1fr 120px 2fr auto"><input value="${esc(x.title)}" data-type="lore" data-i="${i}" data-k="title"><input value="${esc(x.date)}" data-type="lore" data-i="${i}" data-k="date"><input value="${esc(x.text)}" data-type="lore" data-i="${i}" data-k="text"><button class="remove" data-remove="lore" data-i="${i}">×</button></div>`).join('')||'<div class="notice">No entries yet.</div>';}
+function renderPopupWindows(){ $('popupWindows').innerHTML=data.popupWindows.map((x,i)=>`<div class="popup-edit panel"><strong>${esc(x.key)}</strong><label>TITLE<input value="${esc(x.title)}" data-type="popupWindows" data-i="${i}" data-k="title"></label><label>TEXT<textarea data-type="popupWindows" data-i="${i}" data-k="body">${esc(x.body)}</textarea></label><label>REOPEN MINUTES<input type="number" min="1" max="1440" value="${esc(x.reopenMinutes)}" data-type="popupWindows" data-i="${i}" data-k="reopenMinutes"></label></div>`).join('');}
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.type){const obj=data[t.dataset.type][Number(t.dataset.i)];obj[t.dataset.k]=['rating','reopenMinutes'].includes(t.dataset.k)?Number(t.value):t.value;}});
+$("avatarFile").addEventListener('change',event=>{const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{$('avatar').value=reader.result;};reader.readAsDataURL(file);});
+document.addEventListener('click',e=>{const add=e.target.dataset.add;if(add){if(add==='lore') data.lore.push({title:'NEW ENTRY',date:'NOW',text:'Write something here.'}); else data[add].push({name:'NEW ITEM',icon:'✦',rating:50,note:'Write something here.'});add==='lore'?renderLore():renderList(add);}
+const rem=e.target.dataset.remove;if(rem){data[rem].splice(Number(e.target.dataset.i),1);rem==='lore'?renderLore():renderList(rem);}
+});
+$('save').onclick=()=>{readProfile();localStorage.setItem('mingExeData',JSON.stringify(data));alert('Ming.exe data saved in this browser.');};
+$('export').onclick=()=>{readProfile();const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ming.json';a.click();URL.revokeObjectURL(a.href);};
+$('reset').onclick=()=>{localStorage.removeItem('mingExeData');data=JSON.parse(JSON.stringify(original));fillProfile();renderList('likes');renderList('dislikes');renderLore();renderPopupWindows();};
+init().catch(err=>alert('Could not load ming.json: '+err));
+</script>
+</body></html>

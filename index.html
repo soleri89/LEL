@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Ming.exe — a maximalist cyber-glitch character archive.">
+  <title>Ming.exe // SYSTEM ONLINE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div id="screenFx" aria-hidden="true"></div>
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+  <div id="grid" aria-hidden="true"></div>
+  <div id="cursorGlow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <button class="admin-access" id="adminAccess" type="button" aria-label="Abrir acceso de administración" title="MING://PRIVATE ACCESS">⌘ ADMIN</button>
+    <div class="brand">MING<span class="blink">.EXE</span></div>
+    <div class="top-status"><span class="led"></span> SYSTEM: <strong id="systemStatus">ONLINE</strong></div>
+    <div class="clock" id="clock">00:00:00</div>
+    <label class="language-picker"><span class="sr-only">Language</span><select id="languageSelect" aria-label="Seleccionar idioma"><option value="es">ESPAÑOL</option><option value="en">ENGLISH</option><option value="ja">日本語</option><option value="zh">中文</option></select></label>
+    <button class="icon-btn" id="randomGlitch" title="Trigger glitch">⚡</button>
+  </header>
+
+  <div class="admin-dialog panel" id="adminDialog" aria-labelledby="adminDialogTitle" role="dialog" aria-modal="true" hidden>
+    <form id="adminForm">
+      <div class="win-title"><span id="adminDialogTitle">MING://PRIVATE ACCESS</span><button class="close-fake" id="adminCancel" value="cancel" type="submit" aria-label="Cerrar acceso">×</button></div>
+      <label class="admin-label" for="adminCode">ADMIN CODE</label>
+      <input class="admin-input" id="adminCode" name="adminCode" type="password" autocomplete="off" required>
+      <div class="admin-dialog-actions"><button class="admin-submit" value="access" type="submit">ACCESS</button><span class="micro">LOCAL CONTROL PANEL</span></div>
+    </form>
+  </div>
+
+  <main id="app" class="app-shell" data-view="home">
+    <aside class="rail panel">
+      <div class="panel-tag">USER_CORE://MING</div>
+      <div class="avatar-wrap">
+        <div class="avatar-glitch" id="avatarCard">M</div>
+        <img class="avatar-image" id="avatarImage" alt="Perfil de Ming" hidden>
+        <div class="scan"></div>
+      </div>
+      <div class="mini-name" id="miniName">MING</div>
+      <div class="mini-meta" id="miniMeta">16 // ACTIVE</div>
+      <div class="nav-stack" id="navStack">
+        <button data-view="home" class="nav-item active">⌂ HOME.EXE</button>
+        <button data-view="about" class="nav-item">✦ ABOUT.DAT</button>
+        <button data-view="likes" class="nav-item">♡ LIKES.DAT</button>
+        <button data-view="dislikes" class="nav-item">× DISLIKES.DAT</button>
+        <button data-view="combat" class="nav-item">⚔ COMBAT.SYS</button>
+        <button data-view="lore" class="nav-item">◈ LORE.LOG</button>
+        <button data-view="gallery" class="nav-item">▣ GALLERY://</button>
+        <button data-view="archive" class="nav-item">⌁ ARCHIVE</button>
+      </div>
+      <div class="rail-footer">CTRL+K // RANDOM WINDOW</div>
+    </aside>
+
+    <section class="workspace">
+      <div class="marquee panel"><span id="marqueeText">WELCOME TO MING.EXE // PERSONALITY OVERFLOW DETECTED // HAPPY.EXE RUNNING // SYSTEM READY :3 // </span></div>
+
+      <div id="viewContainer" class="view-container" aria-live="polite"></div>
+
+      <section class="floating-zone" aria-label="Decorative status panels">
+        <div class="float-window win-pink panel draggable" data-window-key="notice" style="--x:2%;--y:4%;--r:-2deg">
+          <div class="win-title"><span class="window-title-text">NOTICE.txt</span> <button class="close-fake" type="button" aria-label="Cerrar ventana NOTICE">×</button></div>
+          <div class="win-body">DO NOT FEED THE GLITCH<br><span class="tiny">(unless it tastes like pink candy)</span><br><br>IMPORTANT: YOU ARE STILL HERE.<br>PLEASE ACKNOWLEDGE THE SYSTEM.</div>
+        </div>
+        <div class="float-window win-blue panel draggable" data-window-key="energy" style="--x:78%;--y:7%;--r:3deg">
+          <div class="win-title"><span class="window-title-text">MING_OS // ENERGY</span> <button class="close-fake" type="button" aria-label="Cerrar ventana de energía">×</button></div>
+          <div class="win-body meter"><span id="energyMeter"></span></div>
+          <div class="win-foot">ENERGY <b id="energyText">96%</b><br><span class="tiny">ENERGY DEMANDS ATTENTION.</span></div>
+        </div>
+        <div class="float-window win-dark panel draggable" data-window-key="log" style="--x:72%;--y:62%;--r:-4deg">
+          <div class="win-title"><span class="window-title-text">RANDOM_LOG</span> <button class="close-fake" type="button" aria-label="Cerrar registro aleatorio">×</button></div>
+          <div class="win-body mono" id="randomLog">loading...</div><div class="win-foot">// LOGGING YOUR SILENCE</div>
+        </div>
+        <div class="float-window win-pink panel draggable" data-window-key="chat" style="--x:28%;--y:70%;--r:2deg">
+          <div class="win-title"><span class="window-title-text">MING_CHAT.exe</span> <button class="close-fake" type="button" aria-label="Cerrar ventana de chat">×</button></div>
+          <div class="win-body">HELLO!! ARE YOU READING THIS?<br>WHY DID YOU CLOSE THE OTHER WINDOW?<br><span class="tiny">MING IS TYPING... MING IS TYPING...</span></div>
+        </div>
+        <div class="float-window win-blue panel draggable" data-window-key="alert" style="--x:48%;--y:11%;--r:-1deg">
+          <div class="win-title"><span class="window-title-text">SYSTEM_ALERT // 04</span> <button class="close-fake" type="button" aria-label="Cerrar alerta del sistema">×</button></div>
+          <div class="win-body mono">WARNING: TOO MUCH HAPPINESS<br>CPU MOOD CORE OVERHEATING<br>CLICK NOTHING. CLICK EVERYTHING.<br>STATUS: PLEASE DO NOT PANIC.</div>
+        </div>
+        <div class="sticker sticker-heart">♥</div>
+        <div class="sticker sticker-star">✦</div>
+        <div class="sticker sticker-cute">:3</div>
+        <div class="sticker sticker-warning">ERROR!</div>
+      </section>
+    </section>
+  </main>
+
+  <div id="glitchOverlay" class="glitch-overlay" aria-hidden="true">
+    <div class="glitch-text" id="glitchText">ERROR</div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
