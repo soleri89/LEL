@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "database/ming.sql": "sql"
+  },
+  "mssql.intelliSense.enable": false,
+  "sqltools.connections": [
+    {
+      "name": "Ming.exe MariaDB",
+      "driver": "MySQL",
+      "server": "127.0.0.1",
+      "port": 3306,
+      "database": "ming_exe",
+      "username": "root"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "profile": {
+    "name": "Ming",
+    "avatar": "",
+    "age": 16,
+    "status": "ONLINE",
+    "mood": "HAPPY",
+    "pronouns": ["he/him", "they/them", "she/her"],
+    "identity": "demi-boy",
+    "sexuality": "omnisexual / aromantic",
+    "description": "Extroverted, cheerful, spontaneous and affectionate. Ming tends to make friends quickly, gets distracted inside his own little mental bubble, and carries a ridiculous amount of energy into every room.",
+    "tagline": "PERSONALITY OVERFLOW DETECTED // HAPPY.EXE RUNNING",
+    "colors": {
+      "primary": "#ff1493",
+      "secondary": "#2f62ff",
+      "accent": "#8dd8ff",
+      "background": "#090014"
+    }
+  },
+  "likes": [
+    { "name": "Sweet food", "icon": "🍬", "rating": 96, "note": "Sugar = instant happiness." },
+    { "name": "Spicy food", "icon": "🌶", "rating": 93, "note": "More heat, more fun." },
+    { "name": "Cyber / glitch aesthetics", "icon": "⌁", "rating": 98, "note": "The louder the UI, the better." },
+    { "name": "Music", "icon": "♫", "rating": 91, "note": "A chaotic mix of energy and melody." },
+    { "name": "Technology", "icon": "⚙", "rating": 84, "note": "A tiny robotics fixation remains in the lore." },
+    { "name": "Affection", "icon": "♥", "rating": 97, "note": "Ming is comfortable with affectionate physical contact." }
+  ],
+  "dislikes": [
+    { "name": "Bullies", "icon": "⚠", "rating": 100, "note": "He is not exactly sad when they get what they deserve." },
+    { "name": "Being boxed in", "icon": "▧", "rating": 82, "note": "Too much rigidity kills the mood." }
+  ],
+  "combat": [
+    { "discipline": "Kickboxing", "level": 92, "note": "Strong technical foundation." },
+    { "discipline": "Muay Thai", "level": 94, "note": "Excellent use of knees and elbows; practical experience is still limited." },
+    { "discipline": "Karate", "level": 64, "note": "Secondary discipline." }
+  ],
+  "gallery": [],
+  "lore": [
+    { "title": "CURRENT CANON // AU", "date": "NOW", "text": "This is the current Ming: 16 years old, energetic, affectionate, spontaneous, and unmistakably alive." },
+    { "title": "LEGACY DATA", "date": "ARCHIVED", "text": "Older versions of Ming can be preserved here without rewriting the current canon." },
+    { "title": "SDA MEMORY FRAGMENT", "date": "ARCHIVE", "text": "A separate record for old SDA material, to prevent accidental canon mixing." }
+  ],
+  "quotes": [
+    "SYSTEM READY :3",
+    "WHY IS THIS WINDOW MOVING",
+    "I'M FINE!!",
+    "GLITCH IT AGAIN",
+    "SWEET + SPICY = PERFECT",
+    "ERROR 404: SERIOUSNESS NOT FOUND"
+  ],
+  "popupWindows": [
+    { "key": "notice", "title": "NOTICE.txt", "body": "DO NOT FEED THE GLITCH\nIMPORTANT: YOU ARE STILL HERE.\nPLEASE ACKNOWLEDGE THE SYSTEM.", "reopenMinutes": 5 },
+    { "key": "energy", "title": "MING_OS // ENERGY", "body": "ENERGY DEMANDS ATTENTION.", "reopenMinutes": 5 },
+    { "key": "log", "title": "RANDOM_LOG", "body": "YOUR SILENCE WAS LOGGED.", "reopenMinutes": 5 },
+    { "key": "chat", "title": "MING_CHAT.exe", "body": "HELLO!! ARE YOU READING THIS?\nMING IS TYPING...", "reopenMinutes": 5 },
+    { "key": "alert", "title": "SYSTEM_ALERT // 04", "body": "WARNING: TOO MUCH HAPPINESS\nCLICK NOTHING. CLICK EVERYTHING.", "reopenMinutes": 5 }
+  ]
+}
